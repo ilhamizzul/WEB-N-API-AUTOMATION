@@ -33,7 +33,7 @@ public class BasePageClass {
         return true;
     }
 
-    public void scrollDownByPixel(WebDriver driver, int pixels) {
+    public void scrollByPixel(WebDriver driver, int pixels) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollBy({ top: arguments[0], behavior: 'smooth' })", pixels);
     }
