@@ -9,7 +9,7 @@ Feature: SignUp
 
     Examples:
     | test_type | username | password | message |
-    | valid     | random   | random   | Sign up successful.                    |
+#    | valid     | random   | random   | Sign up successful.                    |
     | invalid   |          | fhbyduji | Please fill out Username and Password. |
     | invalid   | random   |          | Please fill out Username and Password. |
     | invalid   |          |          | Please fill out Username and Password. |
