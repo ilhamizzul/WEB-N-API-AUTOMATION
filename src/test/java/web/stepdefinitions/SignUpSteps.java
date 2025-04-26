@@ -43,4 +43,9 @@ public class SignUpSteps {
     public void theErrorMessageShouldBeDisplayed(String message) {
         mainPage.verifyAlertMessage(message);
     }
+
+    @Then("sign up modal will be shown")
+    public void signUpModalWillBeShown() {
+        mainPage.verifySignupModalLoaded();
+    }
 }

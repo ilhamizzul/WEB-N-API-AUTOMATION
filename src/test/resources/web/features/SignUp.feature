@@ -1,5 +1,16 @@
 Feature: SignUp
 
+  Scenario: Open signup modal
+    Given the user is on the main page
+    When the user click sign up
+    Then sign up modal will be shown
+
+#  Scenario: Close signup modal
+#    Given the user is on the main page
+#    When the user click sign up
+#    And user cancel the sign up process
+#    Then sign up modal will be closed
+
   Scenario Outline: Failed SignUp
     Given the user is on the main page
     When the user click sign up

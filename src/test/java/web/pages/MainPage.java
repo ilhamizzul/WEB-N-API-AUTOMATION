@@ -33,7 +33,7 @@ public class MainPage extends BasePageClass {
     private final By txtSignUpUsername = By.xpath("//input[@id='sign-username']");
     private final By txtSignUpPassword = By.xpath("//input[@id='sign-password']");
     private final By btnSignUp = By.xpath("//button[@onclick='register()']");
-    private final By btnSignUpCancal = By.xpath("//div[@id='signInModal']//button[@type='button'][normalize-space()='Close']");
+    private final By btnSignUpCancel = By.xpath("//div[@id='signInModal']//button[@type='button'][normalize-space()='Close']");
 
     public void navigateToMainPage() {
         navigateToPage(URL);
@@ -51,7 +51,11 @@ public class MainPage extends BasePageClass {
     }
 
     public void verifySignupModalLoaded() {
-        verifyElementsAreVisible(mdlSignUp, mdlSignUpTitle, txtSignUpUsername, txtSignUpPassword, btnSignUp, btnSignUpCancal);
+        verifyElementsAreVisible(mdlSignUp, mdlSignUpTitle, txtSignUpUsername, txtSignUpPassword, btnSignUp, btnSignUpCancel);
+    }
+
+    public void verifySignupModalClosed() {
+        verifyElementsAreNotVisible(mdlSignUp, mdlSignUpTitle, txtSignUpUsername, txtSignUpPassword, btnSignUp, btnSignUpCancel);
     }
 
     public void verifyAlertMessage(String message) {
@@ -100,7 +104,7 @@ public class MainPage extends BasePageClass {
     }
 
     public void clickCloseSignupModalButton() {
-        click(btnSignUpCancal);
+        click(btnSignUpCancel);
     }
 
 
