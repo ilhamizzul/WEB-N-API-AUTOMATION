@@ -48,4 +48,14 @@ public class SignUpSteps {
     public void signUpModalWillBeShown() {
         mainPage.verifySignupModalLoaded();
     }
+
+    @And("user cancel the sign up process")
+    public void userCancelTheSignUpProcess() {
+        mainPage.clickCloseSignupModalButton();
+    }
+
+    @Then("sign up modal will be closed")
+    public void signUpModalWillBeClosed() {
+        mainPage.verifySignupModalClosed();
+    }
 }

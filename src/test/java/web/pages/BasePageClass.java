@@ -1,9 +1,6 @@
 package web.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import web.utils.DriverFactory;
@@ -27,10 +24,28 @@ public class BasePageClass {
         for (By element : elements) {
             WebElement webElement = find(element);
             if (!webElement.isDisplayed()) {
-                throw new AssertionError("Element not visible: " + element.toString());
+                throw new AssertionError("Element visible: " + element.toString());
             }
         }
         return true;
+    }
+
+    public boolean verifyElementsAreNotVisible(By... elements) {
+        boolean allNotVisible = true;
+
+        for (By element : elements) {
+            try {
+                WebElement webElement = find(element);
+                if (webElement.isDisplayed()) {
+                    System.out.println("Element is visible: " + element.toString());
+                    allNotVisible = false;
+                }
+            } catch (NoSuchElementException e) {
+                // If element is not found, it's considered "not visible" — this is fine
+            }
+        }
+
+        return allNotVisible;
     }
 
     public void scrollByPixel(WebDriver driver, int pixels) {
