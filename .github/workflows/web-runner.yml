@@ -30,7 +30,7 @@ jobs:
     - name: Setup Gradlew
       run: |
         chmod +x gradlew
-        ./gradlew build
+        ./gradlew build webTest
       
     # Step 5
     - name: Execute Test
