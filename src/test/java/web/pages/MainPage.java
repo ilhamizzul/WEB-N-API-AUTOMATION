@@ -19,6 +19,8 @@ public class MainPage extends BasePageClass {
     private final By btnNavHome = By.xpath("//a[@class='nav-link'][@href='index.html']");
     private final By btnNavContact = By.xpath("//a[normalize-space()='Contact']");
     private final By btnNavAboutUs = By.xpath("//a[normalize-space()='About us']");
+    private final By btnNavLogout = By.xpath("//a[@id='logout2']");
+    private final By btnNavNameUser = By.xpath("//a[@id='nameofuser']");
 
     private final By footer = By.xpath("//footer");
     private final By footerContent = By.xpath("//div[@id='fotcont']");
@@ -60,6 +62,12 @@ public class MainPage extends BasePageClass {
 
     public void verifySignupModalClosed() {
         verifyElementsAreNotVisible(mdlSignUp, mdlSignUpTitle, txtSignUpUsername, txtSignUpPassword, btnSignUp, btnSignUpCancel);
+    }
+
+    public void verifyLoginSuccess(String userProfileText) {
+        verifyElementsAreVisible(btnNavLogout, btnNavNameUser);
+        String btnUserProfileText = GetText(btnNavNameUser);
+        Assert.assertTrue(btnUserProfileText.contains(userProfileText), "User profile text not match");
     }
 
     public void verifyAlertMessage(String message) {
