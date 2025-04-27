@@ -23,7 +23,7 @@ public class SignUpSteps {
 
     @And("the user enters {string} username {string} and password {string}")
     public void enterCredentials(String testType, String username, String password) {
-        if (testType.equals("invalid") || testType.equals("existing")) {
+        if (testType.equals("invalid") || testType.equals("existing")){
             mainPage.fillUsernameSignupModal(username);
             mainPage.fillPasswordSignupModal(password);
         } else {
@@ -31,7 +31,6 @@ public class SignUpSteps {
             mainPage.fillUsernameSignupModal(savedUsername);
             mainPage.fillPasswordSignupModal(password);
         }
-
     }
 
 
