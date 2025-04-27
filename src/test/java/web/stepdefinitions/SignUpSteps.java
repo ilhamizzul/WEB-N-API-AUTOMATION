@@ -9,7 +9,7 @@ import web.utils.GlobalFunction;
 
 public class SignUpSteps {
     MainPage mainPage = new MainPage();
-
+    String savedUsername;
     @Given("the user is on the main page")
     public void theUserIsOnTheMainPage() {
         mainPage.navigateToMainPage();
@@ -23,11 +23,12 @@ public class SignUpSteps {
 
     @And("the user enters {string} username {string} and password {string}")
     public void enterCredentials(String testType, String username, String password) {
-        if (testType.equals("invalid")) {
+        if (testType.equals("invalid") || testType.equals("existing")) {
             mainPage.fillUsernameSignupModal(username);
             mainPage.fillPasswordSignupModal(password);
         } else {
-            mainPage.fillUsernameSignupModal(new GlobalFunction().GenerateRandomUsername());
+            savedUsername = new GlobalFunction().GenerateRandomUsername();
+            mainPage.fillUsernameSignupModal(savedUsername);
             mainPage.fillPasswordSignupModal(password);
         }
 
@@ -57,5 +58,10 @@ public class SignUpSteps {
     @Then("sign up modal will be closed")
     public void signUpModalWillBeClosed() {
         mainPage.verifySignupModalClosed();
+    }
+
+    @Then("the success message should be displayed")
+    public void theSuccessMessageShouldBeDisplayed() {
+        mainPage.verifyAlertMessage("Sign up successful.");
     }
 }
