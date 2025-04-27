@@ -1,4 +1,4 @@
-name: Web Runner
+name: Test Runner
 
 on:
   push:
@@ -58,19 +58,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v0.0.0
-        with:
-          chrome-options: '--headless'
+#      # Step 3
+#      - name: Setup Chrome
+#        uses: browser-actions/setup-chrome@v0.0.0
+#        with:
+#          chrome-options: '--headless'
 
-      # Step 4
+      # Step 3
       - name: Setup Gradlew
         run: |
           chmod +x gradlew
           ./gradlew build apiTest
 
-      # Step 5
+      # Step 4
       - name: Execute Test
         run: ./gradlew clean apiTest
 
