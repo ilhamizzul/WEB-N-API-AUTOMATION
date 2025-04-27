@@ -1,21 +1,19 @@
-package api.models;
-
-import java.util.List;
+package api.models.User;
 
 public class UserResponse {
-    private List<UserList> users;
+    private java.util.List<UserList> users;
     private int total;
     private int page;
     private int limit;
 
-    public UserResponse(List<UserList> users, int total, int page, int limit) {
+    public UserResponse(java.util.List<UserList> users, int total, int page, int limit) {
         this.users = users;
         this.total = total;
         this.page = page;
         this.limit = limit;
     }
 
-    public List<UserList> getUsers() {
+    public java.util.List<UserList> getUsers() {
         return users;
     }
 

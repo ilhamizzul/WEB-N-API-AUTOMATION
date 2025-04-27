@@ -1,4 +1,4 @@
-package api.models;
+package api.models.User;
 
 public class UserList {
     private String id;
