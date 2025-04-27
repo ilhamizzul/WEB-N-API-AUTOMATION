@@ -43,21 +43,35 @@ jobs:
         name: cucumber reports
         path: target/index.html
 
-#    # Step 6: Generate Allure report
-#    - name: Generate Allure Report
-#      run: ./gradlew allureReport
-#
-#    # Step 7: Upload raw allure-results (optional for debugging)
-#    - name: Upload Allure Results
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: allure-results
-#        path: build/allure-results
-#
-#    # Step 8: Upload generated Allure HTML report (for downloading/viewing)
-#    - name: Upload Allure Report
-#      uses: actions/upload-artifact@v4
-#      with:
-#        name: allure-report
-#        path: build/reports/allure-report
+  restAssured-API-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1
+      - uses: actions/checkout@v4
+
+      # Step 2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Step 3
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v0.0.0
+        with:
+          chrome-options: '--headless'
+
+      # Step 4
+      - name: Setup Gradlew
+        run: |
+          chmod +x gradlew
+          ./gradlew build apiTest
+
+      # Step 5
+      - name: Execute Test
+        run: ./gradlew clean apiTest
+
       
