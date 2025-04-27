@@ -24,6 +24,11 @@ dependencies {
     // report using allure
     testImplementation 'io.qameta.allure:allure-cucumber7-jvm:2.20.1'
     testImplementation 'io.qameta.allure:allure-testng:2.20.1'
+    // rest assured for API Testing
+    testImplementation 'io.rest-assured:rest-assured:5.5.1'
+    testImplementation 'org.assertj:assertj-core:3.25.1'
+    // dotenv
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 //    // Logging
 //    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
 }
@@ -35,6 +40,13 @@ test {
 task webTest(type: Test) {
     useTestNG()
     include '**/web/runners/**'  // Only run BDD runners for web
+    testLogging.showStandardStreams = true
+    outputs.upToDateWhen { false }
+}
+
+task apiTest(type: Test) {
+    useTestNG();
+    include '**/api/**'
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }
 }
