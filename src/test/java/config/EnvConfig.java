@@ -7,7 +7,7 @@ public class EnvConfig {
             .ignoreIfMissing() // Optional: ignore if .env not found
             .load();
 
-    public static String get(String key) {
+    public static String getEnv(String key) {
         return dotenv.get(key);
     }
 }
