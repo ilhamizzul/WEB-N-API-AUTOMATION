@@ -9,23 +9,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1
-    - uses: actions/checkout@v4
+    - name: Git Checkout
+      uses: actions/checkout@v4
 
-    # Step 2
     - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    # Step 3
     - name: Setup Chrome
       uses: browser-actions/setup-chrome@v0.0.0
       with:
         chrome-options: '--headless'
 
-    # Step 4
     - name: Setup Gradlew
       run: chmod +x gradlew
 
@@ -33,7 +30,6 @@ jobs:
       run: |
         echo "${{ secrets.ENV_FILE }}" > .env
 
-    # Step 5
     - name: Execute Test
       run: ./gradlew clean webTest
 
@@ -49,17 +45,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1
-      - uses: actions/checkout@v4
+      - name: Git Checkout
+        uses: actions/checkout@v4
 
-      # Step 2
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Step 3
       - name: Setup Gradlew
         run: chmod +x gradlew
 
@@ -67,6 +61,5 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      # Step 4
       - name: Execute Test
         run: ./gradlew clean apiTest
