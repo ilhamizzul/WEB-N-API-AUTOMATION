@@ -28,9 +28,11 @@ jobs:
     
     # Step 4
     - name: Setup Gradlew
+      run: chmod +x gradlew
+
+    - name: Load Environment Variables
       run: |
-        chmod +x gradlew
-        ./gradlew build webTest
+        echo "${{ secrets.ENV_FILE }}" > .env
       
     # Step 5
     - name: Execute Test
@@ -58,17 +60,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-#      # Step 3
-#      - name: Setup Chrome
-#        uses: browser-actions/setup-chrome@v0.0.0
-#        with:
-#          chrome-options: '--headless'
-
       # Step 3
       - name: Setup Gradlew
+        run: chmod +x gradlew
+
+      - name: Load Environment Variables
         run: |
-          chmod +x gradlew
-          ./gradlew build apiTest
+          echo "${{ secrets.ENV_FILE }}" > .env
 
       # Step 4
       - name: Execute Test
