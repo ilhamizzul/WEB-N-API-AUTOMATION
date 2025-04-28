@@ -30,3 +30,8 @@ Feature: LogIn
     | invalid   | random        |          | Please fill out Username and Password. | login      |
     | invalid   |               |          | Please fill out Username and Password. | login      |
     | invalid   | existing_user | fhbyduji | Wrong password.                        | login      |
+
+  Scenario: User Logout
+    Given user already logged in
+    When user click logout button
+    Then user is logged out from the account

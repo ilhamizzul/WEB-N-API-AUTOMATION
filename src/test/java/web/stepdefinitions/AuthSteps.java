@@ -9,7 +9,7 @@ import web.utils.GlobalFunction;
 
 public class AuthSteps {
     MainPage mainPage = new MainPage();
-    String savedUsername;
+    String savedUsername = "test1745728254292";
     @Given("the user is on the main page")
     public void theUserIsOnTheMainPage() {
         mainPage.navigateToMainPage();
@@ -102,5 +102,20 @@ public class AuthSteps {
     @Then("the user {string} successfully login")
     public void theUserSuccessfullyLogin(String username) {
         mainPage.verifyLoginSuccess(username);
+    }
+
+    @Given("user already logged in")
+    public void userAlreadyLoggedIn() {
+        mainPage.loginProcess();
+    }
+
+    @When("user click logout button")
+    public void userClickLogoutButton() {
+        mainPage.clickLogoutButton();
+    }
+
+    @Then("user is logged out from the account")
+    public void userIsLoggedOutFromTheAccount() {
+        mainPage.verifyPageLoaded();
     }
 }

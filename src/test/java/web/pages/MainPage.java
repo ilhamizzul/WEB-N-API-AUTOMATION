@@ -120,5 +120,21 @@ public class MainPage extends BasePageClass {
         click(btnSignUpCancel);
     }
 
+    public void clickLogoutButton() {
+        click(btnNavLogout);
+    }
+
+    public void loginProcess() {
+        loginProcess("test1745728254292", "random");
+    }
+
+    public void loginProcess(String username, String password) {
+        navigateToMainPage();
+        clickOpenModalLoginButton();
+        fillUsernameLoginModal(username);
+        fillPasswordLoginModal(password);
+        clickLoginButton();
+        verifyLoginSuccess(username);
+    }
 
 }
