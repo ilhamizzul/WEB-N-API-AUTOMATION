@@ -5,54 +5,67 @@ on:
     branches: [ "master" ]
 
 jobs:
-  initial-config:
+  selenium-web-test:
     runs-on: ubuntu-latest
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v4
 
+    steps:
+    # Step 1
+    - uses: actions/checkout@v4
+
+    # Step 2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # Step 3
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@v0.0.0
+      with:
+        chrome-options: '--headless'
+
+    # Step 4
+    - name: Setup Gradlew
+      run: chmod +x gradlew
+
+    - name: Load Environment Variables
+      run: |
+        echo "${{ secrets.ENV_FILE }}" > .env
+
+    # Step 5
+    - name: Execute Test
+      run: ./gradlew clean webTest
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v4.3.0
+      if: always() #always() # success() , failure(), canceled()
+      with:
+        name: cucumber reports
+        path: target/index.html
+
+  restAssured-API-test:
+    needs: selenium-web-test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1
+      - uses: actions/checkout@v4
+
+      # Step 2
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Chrome
-        uses: browser-actions/setup-chrome@v0.0.0
-        with:
-          chrome-options: '--headless'
-
+      # Step 3
       - name: Setup Gradlew
         run: chmod +x gradlew
 
       - name: Load Environment Variables
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
-  selenium-web-test:
-    needs: initial-config
-    runs-on: ubuntu-latest
-
-    steps:
-      - name : git checkout
-        uses: actions/checkout@v4
-
-      - name: Execute Test
-        run: ./gradlew clean webTest
-
-      - name: Archive test results
-        uses: actions/upload-artifact@v4.3.0
-        if: always() #always() # success() , failure(), canceled()
-        with:
-          name: cucumber reports
-          path: target/index.html
-
-  restAssured-API-test:
-    needs: initial-config
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: git checkout
-        uses: actions/checkout@v4
 
       # Step 4
       - name: Execute Test
