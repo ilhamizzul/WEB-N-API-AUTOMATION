@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 )
 @Test(groups = {"web"})
 public class TestRunner extends AbstractTestNGCucumberTests {
-        @Test
+        @Test(groups = {"web"})
         public void runCucumberTests() {
                 // This method is intentionally left empty because Cucumber tests are executed
                 // by extending AbstractTestNGCucumberTests and do not require additional logic here.

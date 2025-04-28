@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 public class UserTest {
     private UserApi userApi = new UserApi();
 
-    @Test
+    @Test(groups = {"api"})
     public void testGetAllUser() {
         Response res = userApi.getListUsers();
         Assert.assertEquals(res.getStatusCode(), 200);
