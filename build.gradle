@@ -38,14 +38,18 @@ test {
 }
 
 task webTest(type: Test) {
-    useTestNG()
+    useTestNG{
+        includeGroups 'web'
+    }
     include '**/web/runners/**'  // Only run BDD runners for web
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }
 }
 
 task apiTest(type: Test) {
-    useTestNG();
+    useTestNG{
+        includeGroups 'api'
+    }
     include '**/api/**'
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }

@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
         },
         monochrome = true
 )
+@Test(groups = {"web"})
 public class TestRunner extends AbstractTestNGCucumberTests {
         @Test
         public void runCucumberTests() {
