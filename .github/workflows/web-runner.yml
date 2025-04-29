@@ -33,7 +33,7 @@ jobs:
     - name: Execute Test
       run: ./gradlew clean webTest
 
-    - name: Archive test results
+    - name: Archive web test results
       uses: actions/upload-artifact@v4.3.0
       if: always() #always() # success() , failure(), canceled()
       with:
@@ -63,3 +63,10 @@ jobs:
 
       - name: Execute Test
         run: ./gradlew clean apiTest
+
+      - name: Archive API test results
+        uses: actions/upload-artifact@v4.3.0
+        if: always() #always() # success() , failure(), canceled()
+        with:
+          name: api reports
+          path: target/index2.html
