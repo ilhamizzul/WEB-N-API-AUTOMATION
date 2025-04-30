@@ -1,6 +1,17 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
 }
+
+//allure {
+//    version = '2.24.0'
+//    report {
+//        path = file("$buildDir/allure-report")
+//    }
+//    results {
+//        path = file("$buildDir/allure-results")
+//    }
+//}
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
