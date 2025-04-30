@@ -43,7 +43,10 @@ public class ProductSteps {
     @And("added product exist in cart page")
     public void addedProductExistInCartPage() {
         productDetailPage.clickCartButton();
+
         // LATER SHOULD BE CHANGE
+        productPage.addSelectedItemToCartList();
         cartPage.verifyPageLoaded();
+        cartPage.verifyAddedProductIsInCart(productPage.getListOfSelectedItems());
     }
 }

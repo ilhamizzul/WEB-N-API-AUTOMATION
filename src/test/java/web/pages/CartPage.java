@@ -2,12 +2,17 @@ package web.pages;
 
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class CartPage extends MainPage {
 
     private final By btnPlaceOrder = By.xpath("//button[@data-target='#orderModal']");
     private final By tblCart = By.xpath("//table[@class='table table-bordered table-hover table-striped']");
     private final By lblTotalPrice = By.xpath("//h3[@id='totalp']");
 
+    private final String xpathProductName = "((//tbody//tr[@class='success'])[%d]//td)[2]";
     private final String xpathProductPrice = "((//tbody//tr[@class='success'])[%d]//td)[3]";
     private final String xpathDeleteProduct = "((//tbody//tr[@class='success'])[2]//td)[4]//a";
 
@@ -34,6 +39,42 @@ public class CartPage extends MainPage {
     public void clickPlaceOrder() {
         click(btnPlaceOrder);
     }
+
+    public void verifyAddedProductIsInCart(List<HashMap<String, Object>> addedItems) {
+        // Get product name and price from the table
+        List<String> tableProductNames = new ArrayList<>();
+        List<String> tableProductPrices = new ArrayList<>();
+
+        int rowCount = addedItems.size();
+        for (int i = 1; i <= rowCount; i++) {
+            String productName = GetText(By.xpath(String.format(xpathProductName, i)));
+            String productPrice = GetText(By.xpath(String.format(xpathProductPrice, i)));
+
+            tableProductNames.add(productName);
+            tableProductPrices.add(productPrice);
+        }
+
+        boolean allProductsFound = true;
+        // Check if each addedItem exists in the table data
+        for (HashMap<String, Object> addedItem : addedItems) {
+            String expectedName = addedItem.get("name").toString();
+            String expectedPrice = addedItem.get("price").toString();
+
+            // Check existence in the table data
+            if (!(tableProductNames.contains(expectedName) && tableProductPrices.contains(expectedPrice))) {
+                allProductsFound = false;
+                System.out.println("Product not found in the table: [name=" + expectedName + ", price=" + expectedPrice + "]");
+            }
+        }
+
+        // Verify the result
+        if (allProductsFound) {
+            System.out.println("All products have been successfully verified in the cart.");
+        } else {
+            throw new AssertionError("Some products are missing from the cart, or the data does not match!");
+        }
+    }
+
 
 
 }

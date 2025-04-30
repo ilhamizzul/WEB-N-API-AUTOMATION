@@ -27,16 +27,16 @@ public class ProductPage extends MainPage {
 
     // create Hashmap or object for adding to List
     private HashMap<String, Object> createSelectedItem(int index) {
-        HashMap<String, Object> selectedItem = new HashMap<>();
-        selectedItem.put("index", String.valueOf(index));
-        selectedItem.put(
+        HashMap<String, Object> item = new HashMap<>();
+        item.put("index", String.valueOf(index));
+        item.put(
             "name", GetText(By.xpath(String.format(xpathProductName, index)))
         );
-        selectedItem.put(
+        item.put(
             "price", GetText(By.xpath(String.format(xpathProductPrice, index))).substring(1)
         );
 
-        return selectedItem;
+        return item;
     }
 
 
@@ -54,7 +54,6 @@ public class ProductPage extends MainPage {
         while (isIndexAlreadyAdded(index)) {
             index = randomItem(cardProducts.size());
         }
-        //addedItemIndices.add(createSelectedItem(index));
 
         return index;
     }
@@ -68,13 +67,21 @@ public class ProductPage extends MainPage {
     public void clickProductCard() {
         int index = selectRandomProduct();
         selectedItem = createSelectedItem(index);
-        //addedItemToCartIndices.add(selectedItem); Make it add to List only if its product added to cart
         By productCard = By.xpath(String.format(xpathProductName, index));
         click(productCard);
     }
 
+    public void addSelectedItemToCartList() {
+        addedItemToCartIndices.add(selectedItem);
+        System.out.println("Added item to cart list: " + addedItemToCartIndices);
+    }
+
     public HashMap<String, Object> getSelectedItem() {
         return selectedItem;
+    }
+
+    public List<HashMap<String, Object>> getListOfSelectedItems() {
+        return addedItemToCartIndices;
     }
 
 }
