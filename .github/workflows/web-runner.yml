@@ -77,4 +77,4 @@ jobs:
         if: always() #always() # success() , failure(), canceled()
         with:
           name: api-test-report
-          path: target/index.html
+          path: build/reports/tests/apiTest
