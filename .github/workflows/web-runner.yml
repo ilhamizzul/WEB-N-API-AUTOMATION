@@ -37,11 +37,11 @@ jobs:
       uses: actions/upload-artifact@v4.3.0
       if: always() #always() # success() , failure(), canceled()
       with:
-        name: cucumber reports
+        name: web test reports
         path: target/index.html
 
   restAssured-API-test:
-    #needs: selenium-web-test
+    needs: selenium-web-test
     runs-on: ubuntu-latest
 
     steps:
@@ -61,12 +61,12 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env
 
-      - name: Execute Test and generate allure report
-        run: ./gradlew clean apiTest allureReport
+      - name: Execute Test
+        run: ./gradlew clean apiTest
 
       - name: Archive API test results
         uses: actions/upload-artifact@v4.3.0
         if: always() #always() # success() , failure(), canceled()
         with:
-          name: allure-report
-          path: build/reports/allure-report
+          name: api-test-report
+          path: target/index.html

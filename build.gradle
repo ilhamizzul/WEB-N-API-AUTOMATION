@@ -1,17 +1,6 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '2.11.2'
 }
-
-//allure {
-//    version = '2.24.0'
-//    report {
-//        path = file("$buildDir/allure-report")
-//    }
-//    results {
-//        path = file("$buildDir/allure-results")
-//    }
-//}
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -55,6 +44,10 @@ task webTest(type: Test) {
     include '**/web/runners/**'  // Only run BDD runners for web
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }
+    reports {
+        html.required.set(true)
+        //junitXml.required.set(true)
+    }
 }
 
 task apiTest(type: Test) {
@@ -64,4 +57,8 @@ task apiTest(type: Test) {
     include '**/api/**'
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }
+    reports {
+        html.required.set(true)
+        //junitXml.required.set(true)
+    }
 }
