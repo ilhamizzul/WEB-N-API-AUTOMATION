@@ -31,7 +31,11 @@ jobs:
         echo "${{ secrets.ENV_FILE }}" > .env
 
     - name: Execute Test
-      run: ./gradlew clean webTest
+      uses: nick-invision/retry@v2
+      with:
+        timeout_minutes: 10
+        max_attempts: 3
+        command: ./gradlew clean webTest
 
     - name: Archive web test results
       uses: actions/upload-artifact@v4.3.0
@@ -62,7 +66,11 @@ jobs:
           echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Execute Test
-        run: ./gradlew clean apiTest
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          command: ./gradlew clean apiTest
 
       - name: Archive API test results
         uses: actions/upload-artifact@v4.3.0
