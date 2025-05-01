@@ -17,7 +17,7 @@ public class MainPage extends BasePageClass {
     private final By btnNavLogin = By.xpath("//a[@id='login2']");
     private final By btnNavSignup = By.xpath("//a[@id='signin2']");
     private final By btnNavHome = By.xpath("//a[@class='nav-link'][@href='index.html']");
-    private final By btnNavCart = By.xpath("//a[@id='cartur']");
+    private final By btnNavCart = By.xpath("//a[@href='cart.html']");
     private final By btnNavContact = By.xpath("//a[normalize-space()='Contact']");
     private final By btnNavAboutUs = By.xpath("//a[normalize-space()='About us']");
     private final By btnNavLogout = By.xpath("//a[@id='logout2']");
@@ -127,6 +127,10 @@ public class MainPage extends BasePageClass {
 
     public void clickLogoutButton() {
         click(btnNavLogout);
+    }
+
+    public void clickMainPageButton() {
+        click(btnNavHome);
     }
 
     public void loginProcess() {

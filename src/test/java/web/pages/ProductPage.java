@@ -51,7 +51,7 @@ public class ProductPage extends MainPage {
         List<WebElement> cardProducts = driver.findElements(cardProductsLocator);
 
         int index = randomItem(cardProducts.size());
-        while (isIndexAlreadyAdded(index)) {
+        while (isIndexAlreadyAdded(index) || index == 0) {
             index = randomItem(cardProducts.size());
         }
 
@@ -74,6 +74,15 @@ public class ProductPage extends MainPage {
     public void addSelectedItemToCartList() {
         addedItemToCartIndices.add(selectedItem);
         System.out.println("Added item to cart list: " + addedItemToCartIndices);
+    }
+
+    public String getTotalPrice() {
+        int totalPrice = 0;
+        for (HashMap<String, Object> addedItem : addedItemToCartIndices) {
+            String expectedPrice = addedItem.get("price").toString();
+            totalPrice += Integer.parseInt(expectedPrice);
+        }
+        return String.valueOf(totalPrice);
     }
 
     public HashMap<String, Object> getSelectedItem() {
