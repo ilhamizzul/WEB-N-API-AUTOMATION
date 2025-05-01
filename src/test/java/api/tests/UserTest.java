@@ -14,10 +14,7 @@ public class UserTest {
     @Test(description = "Test Get Users", groups = {"api"})
     public void testGetAllUser() {
         Response res = userApi.getListUsers();
-        Assert.assertEquals(res.getStatusCode(), 200);
-        System.out.println(res.getBody().prettyPrint());
-//        UserResponse[] users = res.getBody().as(UserResponse[].class);
-//        Assert.assertTrue(users.length > 0);
+        res.then().assertThat().statusCode(200);
 
     }
 }
