@@ -16,3 +16,13 @@ Feature: Product N Cart
     Then product is added to cart notification is shown
     And added product exist in cart page
 
+  Scenario Outline: User add multiple product
+    Given the user is on the main page
+    When user want to add "<items>" items on cart
+    Then added product exist in cart page
+    Examples:
+    | items |
+    | 2     |
+    | 3     |
+    | 4      |
+

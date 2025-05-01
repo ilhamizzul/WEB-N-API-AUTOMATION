@@ -33,6 +33,7 @@ public class ProductSteps {
     @And("user click add product to cart")
     public void userClickAddProductToCart() {
         productDetailPage.clickAddToCart();
+        productPage.addSelectedItemToCartList();
     }
 
     @Then("product is added to cart notification is shown")
@@ -45,8 +46,18 @@ public class ProductSteps {
         productDetailPage.clickCartButton();
 
         // LATER SHOULD BE CHANGE
-        productPage.addSelectedItemToCartList();
         cartPage.verifyPageLoaded();
         cartPage.verifyAddedProductIsInCart(productPage.getListOfSelectedItems());
+        cartPage.verifyTotalPrice(productPage.getTotalPrice());
+    }
+
+    @When("user want to add {string} items on cart")
+    public void userWantToAddItemsOnCart(String totalItems) {
+        for (int i = 0; i < Integer.parseInt(totalItems); i++) {
+            userClickCertainProduct();
+            userClickAddProductToCart();
+            productIsAddedToCartNotificationIsShown();
+            productPage.clickMainPageButton();
+        }
     }
 }

@@ -1,6 +1,8 @@
 package web.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ public class CartPage extends MainPage {
     private final String xpathProductName = "((//tbody//tr[@class='success'])[%d]//td)[2]";
     private final String xpathProductPrice = "((//tbody//tr[@class='success'])[%d]//td)[3]";
     private final String xpathDeleteProduct = "((//tbody//tr[@class='success'])[2]//td)[4]//a";
+    private final By tblCartItems = By.xpath("//tr[@class='success']");
 
     private final By mdlTotalPrice = By.xpath("//label[@id='totalm']");
     private final By mdlTxtName = By.xpath("//input[@id='name']");
@@ -44,8 +47,9 @@ public class CartPage extends MainPage {
         // Get product name and price from the table
         List<String> tableProductNames = new ArrayList<>();
         List<String> tableProductPrices = new ArrayList<>();
+        List<WebElement> cartItems = driver.findElements(tblCartItems);
 
-        int rowCount = addedItems.size();
+        int rowCount = cartItems.size();
         for (int i = 1; i <= rowCount; i++) {
             String productName = GetText(By.xpath(String.format(xpathProductName, i)));
             String productPrice = GetText(By.xpath(String.format(xpathProductPrice, i)));
@@ -67,6 +71,12 @@ public class CartPage extends MainPage {
             }
         }
 
+        // check if item on carttable have equal item count with added products
+        if (cartItems.size() != addedItems.size()) {
+            allProductsFound = false;
+            System.out.println("Item count on carttable is not match with added products");
+        }
+
         // Verify the result
         if (allProductsFound) {
             System.out.println("All products have been successfully verified in the cart.");
@@ -75,6 +85,9 @@ public class CartPage extends MainPage {
         }
     }
 
-
+    public void verifyTotalPrice(String expectedTotalPrice) {
+        String actualTotalPrice = GetText(lblTotalPrice);
+        Assert.assertEquals(expectedTotalPrice, actualTotalPrice, "Total price is not match");
+    }
 
 }
