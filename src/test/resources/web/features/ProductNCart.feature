@@ -24,5 +24,12 @@ Feature: Product N Cart
     | items |
     | 2     |
     | 3     |
-    | 4      |
+    | 4     |
+
+  Scenario: User want to checkout the product
+    Given the user is on the main page
+    And user add "2" product in cart
+    When user click checkout button in cart page
+    And user fill the cart checkout form
+    Then purchase is successfully been made
 

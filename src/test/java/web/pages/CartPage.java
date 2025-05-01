@@ -29,6 +29,10 @@ public class CartPage extends MainPage {
     private final By mdlBtnPurchase = By.xpath("//button[@onclick='purchaseOrder()']");
     private final By mdlBtnCancel = By.xpath("//div[@id='orderModal']//button[@type='button'][@class='btn btn-secondary']");
 
+    private final By mdlPurchaseResponseBox = By.xpath("//div[contains(@class,'showSweetAlert visible')]");
+    private final By mdlPurcahseResponseText = By.xpath("//div[contains(@class,'showSweetAlert visible')]//h2");
+    private final By mdlBtnPurchaseOK = By.xpath("//div[@class='sa-confirm-button-container']//button");
+
     @Override
     public void verifyPageLoaded() {
         super.verifyPageLoaded();
@@ -37,6 +41,10 @@ public class CartPage extends MainPage {
 
     public void verifyModalPurchaseLoaded() {
         verifyElementsAreVisible(mdlTotalPrice, mdlTxtName, mdlTxtCountry, mdlTxtCity, mdlTxtCreditCard, mdlTxtMonth, mdlTxtYear, mdlBtnPurchase, mdlBtnCancel);
+    }
+
+    public void verifyModalPurchaseVisible() {
+        verifyElementsAreVisible(mdlPurchaseResponseBox, mdlPurcahseResponseText, mdlBtnPurchaseOK);
     }
 
     public void clickPlaceOrder() {
@@ -88,6 +96,16 @@ public class CartPage extends MainPage {
     public void verifyTotalPrice(String expectedTotalPrice) {
         String actualTotalPrice = GetText(lblTotalPrice);
         Assert.assertEquals(expectedTotalPrice, actualTotalPrice, "Total price is not match");
+    }
+
+    public void fillPurchaseModal(String name, String country, String city, String creditCard, String month, String year) {
+        type(mdlTxtName, name);
+        type(mdlTxtCountry, country);
+        type(mdlTxtCity, city);
+        type(mdlTxtCreditCard, creditCard);
+        type(mdlTxtMonth, month);
+        type(mdlTxtYear, year);
+        click(mdlBtnPurchase);
     }
 
 }

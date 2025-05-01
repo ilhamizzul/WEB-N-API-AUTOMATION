@@ -52,6 +52,7 @@ public class ProductSteps {
     }
 
     @When("user want to add {string} items on cart")
+    @And("user add {string} product in cart")
     public void userWantToAddItemsOnCart(String totalItems) {
         for (int i = 0; i < Integer.parseInt(totalItems); i++) {
             userClickCertainProduct();
@@ -59,5 +60,22 @@ public class ProductSteps {
             productIsAddedToCartNotificationIsShown();
             productPage.clickMainPageButton();
         }
+    }
+
+    @When("user click checkout button in cart page")
+    public void userClickCheckoutButtonInCartPage() {
+        productDetailPage.clickCartButton();
+        cartPage.clickPlaceOrder();
+        cartPage.verifyModalPurchaseLoaded();
+    }
+
+    @And("user fill the cart checkout form")
+    public void userFillTheCartCheckoutForm() {
+        cartPage.fillPurchaseModal("john doe", "TEST COUNTRY", "CITY", "123098", "12", "32");
+    }
+
+    @Then("purchase is successfully been made")
+    public void purchaseIsSuccessfullyBeenMade() {
+        cartPage.verifyModalPurchaseVisible();
     }
 }
