@@ -41,7 +41,7 @@ public class ProductSteps {
         productDetailPage.verifyAlertMessage("Product added");
     }
 
-    @And("added product exist in cart page")
+    @Then("added product exist in cart page")
     public void addedProductExistInCartPage() {
         productDetailPage.clickCartButton();
 
