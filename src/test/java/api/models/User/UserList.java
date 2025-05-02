@@ -1,5 +1,8 @@
 package api.models.User;
 
+import lombok.Data;
+
+@Data
 public class UserList {
     private String id;
     private String title;
@@ -7,27 +10,27 @@ public class UserList {
     private String lastName;
     private String picture;
 
-    public UserList(String id, String title, String firstName, String lastName, String picture) {
-        id = this.id;
-        title = this.title;
-        firstName = this.firstName;
-        lastName = this.lastName;
-        picture = this.picture;
-    }
-
-    public String getId() {
-        return id;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public String getPicture() {
-        return picture;
-    }
+//    public UserList(String id, String title, String firstName, String lastName, String picture) {
+//        id = this.id;
+//        title = this.title;
+//        firstName = this.firstName;
+//        lastName = this.lastName;
+//        picture = this.picture;
+//    }
+//
+//    public String getId() {
+//        return id;
+//    }
+//    public String getTitle() {
+//        return title;
+//    }
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//    public String getLastName() {
+//        return lastName;
+//    }
+//    public String getPicture() {
+//        return picture;
+//    }
 }
