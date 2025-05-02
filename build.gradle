@@ -29,16 +29,20 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.25.1'
     // dotenv
     implementation 'io.github.cdimascio:dotenv-java:3.0.0'
-//    // Logging
-//    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
+    testImplementation 'org.hamcrest:hamcrest:3.0'
+    // Logging
+    testImplementation 'org.slf4j:slf4j-simple:2.0.13'
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    testImplementation 'org.projectlombok:lombok:1.18.38'
 }
 
 test {
     useTestNG()
 }
 
-task webTest(type: Test) {
-    useTestNG{
+tasks.register('webTest', Test) {
+    useTestNG {
         includeGroups 'web'
     }
     include '**/web/runners/**'  // Only run BDD runners for web
@@ -50,8 +54,8 @@ task webTest(type: Test) {
     }
 }
 
-task apiTest(type: Test) {
-    useTestNG{
+tasks.register('apiTest', Test) {
+    useTestNG {
         includeGroups 'api'
     }
     include '**/api/**'
