@@ -13,9 +13,9 @@ import java.util.Map;
 @Test(groups = {"api"})
 public class UserTest extends BaseTest{
     private String idUser = null;
-    private UserFull userFull = new UserFull(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress());
+    private UserFull userFull = null;
 
-    @Test(description = "Test Get Users", groups = {"api"})
+    @Test(description = "Test Get Users", groups = {"api"}, priority = 1)
     public void testGetAllUser() {
         Response res = userApi.getListUsers();
         res.then().assertThat().statusCode(200)
@@ -39,7 +39,7 @@ public class UserTest extends BaseTest{
         Assert.assertEquals(data, 10);
     }
 
-    @Test(description = "Test Get User By Id", groups = {"api"})
+    @Test(description = "Test Get User By Id", groups = {"api"}, dependsOnMethods = {"testGetAllUser"})
     public void testGetUserById() {
         Response res = userApi.getUserById(idUser);
         res.then().assertThat().statusCode(200)
@@ -51,6 +51,7 @@ public class UserTest extends BaseTest{
 
     @Test(description = "Test Create User", groups = {"api"})
     public void testCreateUser() {
+        userFull = new UserFull(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress());
         Response res = userApi.createUser(userFull);
         System.out.println(res.getBody().asString());
         res.then().assertThat().statusCode(200)
@@ -80,5 +81,31 @@ public class UserTest extends BaseTest{
                 .assertThat().body("email", equalTo(userFull.getEmail()))
                 .assertThat().body("gender", notNullValue())
                 .assertThat().body("phone", notNullValue());
+    }
+
+    @Test(description = "Test Delete Created User", groups = {"api"}, dependsOnMethods = {"testUpdateUser"})
+    public void testDeleteUser() {
+        Response res = userApi.deleteUser(userFull.getId());
+        System.out.println(res.getBody().asString());
+        res.then().assertThat().statusCode(200)
+                .time(lessThan(2000L));
+    }
+
+    @Test(description = "Test Double Delete Created User", groups = {"api"}, dependsOnMethods = {"testDeleteUser"})
+    public void testDoubleDeleteUser() {
+        // 1. create new user
+        userFull = new UserFull(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress());
+        Response userRes = userApi.createUser(userFull);
+        userFull.setId(JsonPath.read(userRes.getBody().asString(), "$.id"));
+
+        // 2. delete the created user
+        Response deleteRes = userApi.deleteUser(userFull.getId());
+        deleteRes.then().assertThat().statusCode(200)
+                .time(lessThan(2000L));
+
+        // 3. delete it again
+        Response doubleDeleteRes = userApi.deleteUser(userFull.getId());
+        System.out.println(doubleDeleteRes.getBody().asString());
+        doubleDeleteRes.then().assertThat().statusCode(404).assertThat().body("error", equalTo("RESOURCE_NOT_FOUND"));
     }
 }

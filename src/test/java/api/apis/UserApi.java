@@ -27,5 +27,9 @@ public class UserApi extends BaseApi {
         return put("user/" + id, body);
     }
 
+    public Response deleteUser(String id) {
+        return delete("user/" + id);
+    }
+
 
 }
