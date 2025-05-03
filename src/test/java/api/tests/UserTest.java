@@ -1,8 +1,6 @@
 package api.tests;
 
-import api.models.Common.PaginatedResponse;
-import api.models.User.UserList;
-import io.restassured.common.mapper.TypeRef;
+import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 
 import static org.hamcrest.Matchers.*;
@@ -10,10 +8,11 @@ import static org.hamcrest.Matchers.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import java.util.Map;
 
 @Test(groups = {"api"})
 public class UserTest extends BaseTest{
+    private String idUser = null;
 
     @Test(description = "Test Get Users", groups = {"api"})
     public void testGetAllUser() {
@@ -22,12 +21,30 @@ public class UserTest extends BaseTest{
                 .time(lessThan(2000L))
                 .assertThat().body("data.firstName", hasItems("Carolina"));
 
-        PaginatedResponse<UserList> userResponse = res.as(new TypeRef<PaginatedResponse<UserList>>() {});
-        Assert.assertNotNull(userResponse, "Deserialization failed: User response is null!");
+        String jsonResponse = res.getBody().asString();
+        idUser = JsonPath.read(jsonResponse, "$.data[0].id");
+        System.out.println(idUser);
+    }
 
-        List<UserList> users = userResponse.getData();
-        Assert.assertNotNull(users, "Users list is null!");
-        Assert.assertFalse(users.isEmpty(), "Users list is empty!");
+    @Test(description = "Test Get 10 Users", groups = {"api"})
+    public void testGetLimitedUser() {
+        Map<String, String> queryParams = Map.of("limit", "10");
+        Response res = userApi.getListUsers(queryParams);
+        res.then().assertThat().statusCode(200)
+                .time(lessThan(2000L));
 
+        String jsonResponse = res.getBody().asString();
+        var data = JsonPath.read(jsonResponse, "$.data.length()");
+        Assert.assertEquals(data, 10);
+    }
+
+    @Test(description = "Test Get User By Id", groups = {"api"})
+    public void testGetUserById() {
+        Response res = userApi.getUserById(idUser);
+        res.then().assertThat().statusCode(200)
+                .time(lessThan(2000L));
+
+        String jsonResponse = res.getBody().asString();
+        Assert.assertEquals(JsonPath.read(jsonResponse, "$.id"), idUser);
     }
 }
