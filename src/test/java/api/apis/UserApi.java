@@ -23,5 +23,9 @@ public class UserApi extends BaseApi {
         return post("user/create", body);
     }
 
+    public Response updateUser(String id, Object body) {
+        return put("user/" + id, body);
+    }
+
 
 }

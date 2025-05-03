@@ -1,8 +1,5 @@
 package api.models.User;
 
-import lombok.Data;
-
-@Data
 public class UserPreview {
     private String id;
     private String title;
