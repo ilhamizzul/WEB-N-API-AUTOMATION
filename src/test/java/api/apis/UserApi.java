@@ -19,5 +19,9 @@ public class UserApi extends BaseApi {
         return get("user/" + id, null);
     }
 
+    public Response createUser(Object body) {
+        return post("user/create", body);
+    }
+
 
 }

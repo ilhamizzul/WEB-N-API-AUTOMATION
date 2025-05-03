@@ -1,5 +1,7 @@
 package api.tests;
 
+import api.models.User.UserFull;
+import api.models.User.UserPreview;
 import com.jayway.jsonpath.JsonPath;
 import io.restassured.response.Response;
 
@@ -13,6 +15,7 @@ import java.util.Map;
 @Test(groups = {"api"})
 public class UserTest extends BaseTest{
     private String idUser = null;
+    private UserFull userFull = new UserFull("john", "doe", "test_johndoe@gmail.com");
 
     @Test(description = "Test Get Users", groups = {"api"})
     public void testGetAllUser() {
@@ -46,5 +49,21 @@ public class UserTest extends BaseTest{
 
         String jsonResponse = res.getBody().asString();
         Assert.assertEquals(JsonPath.read(jsonResponse, "$.id"), idUser);
+    }
+
+    @Test(description = "Test Create User", groups = {"api"})
+    public void testCreateUser() {
+        Response res = userApi.createUser(userFull);
+        System.out.println(res.getBody().asString());
+        res.then().assertThat().statusCode(200)
+                .time(lessThan(2000L))
+                .assertThat().body("id", notNullValue())
+                .assertThat().body("firstName", equalTo(userFull.getFirstName()))
+                .assertThat().body("lastName", equalTo(userFull.getLastName()))
+                .assertThat().body("email", equalTo(userFull.getEmail()));
+
+        String jsonResponse = res.getBody().asString();
+        userFull.setId(JsonPath.read(jsonResponse, "$.id"));
+        userFull.setRegisterDate(JsonPath.read(jsonResponse, "$.registerDate"));
     }
 }
