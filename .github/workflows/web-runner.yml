@@ -45,7 +45,7 @@ jobs:
         path: target/index.html
 
   restAssured-API-test:
-    needs: selenium-web-test
+    #needs: selenium-web-test
     runs-on: ubuntu-latest
 
     steps:
