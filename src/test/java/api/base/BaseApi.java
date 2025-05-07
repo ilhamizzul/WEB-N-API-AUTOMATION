@@ -40,4 +40,8 @@ public class BaseApi {
                 .body(body)
                 .put(endpoint);
     }
+
+    protected Response delete(String endpoint) {
+        return requestSpec().delete(endpoint);
+    }
 }
