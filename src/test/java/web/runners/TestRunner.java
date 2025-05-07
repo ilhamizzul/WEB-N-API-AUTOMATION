@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
         glue = {"web/stepdefinitions", "web/hooks"},
         plugin = {
                 "pretty",
-                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
                 "html:target/index.html"
         },
         monochrome = true
