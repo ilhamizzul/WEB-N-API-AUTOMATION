@@ -3,6 +3,8 @@ name: Test Runner
 on:
   push:
     branches: [ "master" ]
+  schedule:
+    - cron: '30 7 * * *'
 
 jobs:
   selenium-web-chrome:
@@ -60,7 +62,7 @@ jobs:
       - name: Install Firefox
         uses: browser-actions/setup-firefox@v0.0.0
         with:
-          firefox-options: '--headless'
+          firefox-version: 'latest'
 
       - name: Setup Gradlew
         run: chmod +x gradlew
