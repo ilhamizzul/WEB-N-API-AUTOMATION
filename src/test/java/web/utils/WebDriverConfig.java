@@ -18,7 +18,7 @@ public class WebDriverConfig {
 
     public static WebDriver initChromeDriver() {
         WebDriverManager.chromedriver().setup();
-
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         // Set Chrome preferences
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false); // Disable credential service
@@ -27,7 +27,9 @@ public class WebDriverConfig {
 
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
-        options.addArguments("--headless=new"); // or just "--headless" for older versions
+        if (isHeadless) {
+            options.addArguments("--headless=new");
+        }
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-popup-blocking"); // help JS alerts show or behave correctly.
@@ -42,9 +44,12 @@ public class WebDriverConfig {
 
     public static WebDriver initFirefoxDriver() {
         WebDriverManager.firefoxdriver().setup();
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
 
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments("--headless"); // headless mode
+        if (isHeadless) {
+            options.addArguments("--headless"); // headless mode
+        }
         options.addArguments("-private");
 
         // To disable some features, use preferences:
@@ -56,17 +61,19 @@ public class WebDriverConfig {
 
         options.setProfile(profile);
 
-        WebDriver driver = new FirefoxDriver();
+        WebDriver driver = new FirefoxDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
         return driver;
     }
 
     public static WebDriver initEdgeDriver() {
         WebDriverManager.edgedriver().setup();
-
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless=new");
+        if (isHeadless) {
+            options.addArguments("--headless=new");
+        }
+
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-popup-blocking");
@@ -76,7 +83,6 @@ public class WebDriverConfig {
 
         WebDriver driver = new EdgeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        driver.manage().window().maximize();
         return driver;
     }
 }
