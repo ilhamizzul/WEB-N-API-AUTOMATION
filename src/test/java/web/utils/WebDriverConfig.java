@@ -4,7 +4,11 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.time.Duration;
 import java.util.HashMap;
@@ -38,7 +42,39 @@ public class WebDriverConfig {
 
     public static WebDriver initFirefoxDriver() {
         WebDriverManager.firefoxdriver().setup();
+
+        FirefoxOptions options = new FirefoxOptions();
+        options.addArguments("--headless"); // headless mode
+        options.addArguments("-private");
+
+        // To disable some features, use preferences:
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("signon.rememberSignons", false);
+        profile.setPreference("credentials_enable_service", false);
+        profile.setPreference("dom.webnotifications.enabled", false);
+        profile.setPreference("browser.safebrowsing.enabled", false);
+
+        options.setProfile(profile);
+
         WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        return driver;
+    }
+
+    public static WebDriver initEdgeDriver() {
+        WebDriverManager.edgedriver().setup();
+
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--disable-save-password-bubble");
+        options.addArguments("--disable-notifications");
+        options.addArguments("--inprivate"); // Edge's incognito mode
+
+        WebDriver driver = new EdgeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         return driver;
