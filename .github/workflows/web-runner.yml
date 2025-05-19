@@ -60,7 +60,7 @@ jobs:
       - name: Install Firefox
         uses: browser-actions/setup-firefox@v0.0.0
         with:
-          chrome-options: '--headless'
+          firefox-options: '--headless'
 
       - name: Setup Gradlew
         run: chmod +x gradlew
