@@ -60,7 +60,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Install Firefox
-        uses: browser-actions/setup-firefox@v0.0.0
+        uses: browser-actions/setup-firefox@v1.5.4
         with:
           firefox-version: 'latest'
 
