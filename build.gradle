@@ -48,9 +48,18 @@ tasks.register('webTest', Test) {
     include '**/web/runners/**'  // Only run BDD runners for web
     testLogging.showStandardStreams = true
     outputs.upToDateWhen { false }
+
+    // Forward all -D properties to the test JVM
+    systemProperties System.getProperties()
+
     reports {
         html.required.set(true)
         //junitXml.required.set(true)
+    }
+
+    // Optional: Print browser property to verify
+    doFirst {
+        println ">>> Running web tests with browser = ${System.getProperty("browser")}"
     }
 }
 
